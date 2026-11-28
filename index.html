@@ -470,6 +470,12 @@ select{font:16px var(--font);color:var(--fg);background:var(--bg);border:1px sol
 .cele-card .cf p{margin:0 0 8px;display:flex;gap:8px}
 .cele-card .cf p:last-child{margin:0}
 .cele-card .btn{width:100%}
+.bdrow{display:flex;justify-content:center;align-items:flex-end;gap:10px}
+.bdrow .bdhat{font-size:32px;line-height:1}
+.bdrow .bdcake{display:inline-block;font-size:48px;line-height:1}
+.bdh{font-size:24px!important}
+.bdn{color:#D7001A}
+@media (prefers-reduced-motion:no-preference){.bdcake{animation:cakeb 1.2s ease-in-out 1.6s infinite}@keyframes cakeb{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-6px) rotate(-6deg)}75%{transform:translateY(-6px) rotate(6deg)}}.bdhat{animation:hatp .9s ease-out 1.2s both}@keyframes hatp{0%{transform:scale(0) rotate(-40deg)}70%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(1)}}}
 .cele-card:focus{outline:none}
 </style>
 
@@ -491,7 +497,7 @@ const BOL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFcAAABXCAYAAABxyNlsAAB
 const themeOf=()=>S.theme==='light'||S.theme==='dark'?S.theme:'auto';
 function applyTheme(){const t=themeOf(),r=document.documentElement;if(t==='auto')r.removeAttribute('data-theme');else r.setAttribute('data-theme',t);
   const dk=t==='dark'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);document.querySelectorAll('meta[name=theme-color]').forEach(m=>{if(t==='auto'){m.setAttribute('content',m.getAttribute('media').includes('dark')?'#0F0F10':'#E6E6E8')}else m.setAttribute('content',dk?'#0F0F10':'#E6E6E8')})}
-const APP_VERSION='5.4',APP_DATE='28 november 2026';
+const APP_VERSION='5.6',APP_DATE='28 november 2026';
 // niet inzoomen: knijpen (iOS) en dubbeltikken tegenhouden
 ['gesturestart','gesturechange'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
 document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
@@ -1206,6 +1212,7 @@ const FACTS={
  pasen:["Pasen valt op de eerste zondag na de eerste volle maan van de lente, en dus altijd tussen 22 maart en 25 april?","de paashaas uit Duitsland komt en door Duitse immigranten naar Amerika is meegenomen?","de Nederlander Jacob Roggeveen het Paaseiland op paaszondag 1722 ontdekte, en het daarom zo noemde?","in Oekraïne paaseieren al eeuwenlang met bijenwas worden beschilderd? Die eieren heten pysanky.","juwelier Fabergé vijftig keizerlijke paaseieren maakte voor de Russische tsaren?","in het oosten van Nederland met Pasen traditioneel grote paasvuren worden aangestoken?","de kleur van een ei afhangt van het kippenras, en niet van wat de kip eet?","een legkip tot zo'n 300 eieren per jaar legt?","Australiërs vaak een paasbilby hebben in plaats van een paashaas, omdat konijnen daar een plaag zijn?","kinderen in Zweden en Finland zich met Pasen verkleden als paasheksjes?","de Matthäus-Passion van Bach in Naarden al sinds 1922 rond Pasen wordt uitgevoerd?","Noren met Pasen massaal detectiveverhalen lezen? Ze noemen dat påskekrim."]
 };
 // elk jaar drie andere weetjes, voor iedereen dezelfde: met 12 weetjes 4 jaar zonder herhaling
+const BFACTS=["in een groep van maar 23 mensen de kans groter dan 50% is dat twee van hen op dezelfde dag jarig zijn?","wij in Nederland op een verjaardag ook de familie feliciteren? Gefeliciteerd met je collega dus ook!","ongeveer 1 op de 1.461 mensen op 29 februari jarig is, en dus maar eens in de vier jaar echt?","de melodie van het bekende verjaardagsliedje oorspronkelijk een ochtendgroet voor schoolkinderen was, uit 1893?","de traditie van kaarsjes op de verjaardagstaart waarschijnlijk uit Duitsland komt?","er op de wereld elke dag zo'n 22 miljoen mensen jarig zijn? Vandaag ben jij een van hen!"];
 const pick3=(a,y)=>{const st=(((y%4)+4)%4)*3;return a.slice(st,st+3)};
 const firstName=()=>(S.name||'').trim().split(/\s+/)[0]||'';
 function yearHours(y){let h=0;for(const k in S.entries)if(k.startsWith(y+'-')){const c=calc(S.entries[k]);h+=c.tot+c.t}return Math.round(h)}
@@ -1222,8 +1229,8 @@ function celebrate(type){
   const y=now.getFullYear(),fn=firstName(),yh=yearHours(y),nyY=now.getMonth()>=6?y+1:y;
   const facts=(set,bg,ic)=>`<div class="cf" style="background:${bg}"><b>Wist je dat...</b>${pick3(FACTS[set],set==='nj'?nyY:y).map(f=>`<p><span aria-hidden="true">${ic}</span><span>${esc(f)}</span></p>`).join('')}</div>`;
   const C={
-    bday:{cls:'over',bg:'var(--surface)',card:'background:var(--surface);color:var(--fg);border:1px solid var(--edge);box-shadow:0 6px 24px rgba(0,0,0,.18)',delay:1.2,scene:sceneBday,label:'Gefeliciteerd',
-      html:`<div class="cico" aria-hidden="true">🎂</div><h2>Gefeliciteerd${fn?', '+esc(fn):''}!</h2><p class="csub">Een hele fijne verjaardag gewenst.</p>${yh?`<div class="cf" style="background:var(--bg)"><b>Fun fact</b><p><span aria-hidden="true">⏱️</span><span>Je hebt dit jaar al ${yh.toLocaleString('nl-NL')} uur gewerkt. Dat zijn ${Math.floor(yh/24).toLocaleString('nl-NL')} volle etmalen!</span></p></div>`:''}`},
+    bday:{cls:'over',bg:'#FFF3E6',card:'background:#FFFFFF;color:#2B2B2D;border:3px solid #F07800;box-shadow:0 10px 30px rgba(215,0,26,.18)',delay:1.1,scene:sceneBday,label:'Gefeliciteerd',
+      html:`<div class="cico bdrow" aria-hidden="true"><span class="bdhat">🎉</span><span class="bdcake">🎂</span><span class="bdhat r">🥳</span></div><h2 class="bdh">Hiep hiep hoera${fn?`, <span class="bdn">${esc(fn)}</span>`:''}!</h2><p class="csub">Gefeliciteerd met je verjaardag! Een hele fijne, feestelijke dag gewenst. 🥳</p><div class="cf" style="background:#FFF3E6;color:#6A3300"><b>Wist je dat...</b><p><span aria-hidden="true">🎈</span><span>${esc(BFACTS[((y%BFACTS.length)+BFACTS.length)%BFACTS.length])}</span></p></div>`},
     kerst:{cls:'end',bg:'#042C53',card:'background:rgba(4,44,83,.88);color:#E6F1FB;border:1px solid #185FA5',delay:1.6,scene:sceneKerst,label:'Fijne feestdagen',
       html:`<h2>We wensen je fijne feestdagen toe 🎄</h2>${facts('kerst','rgba(255,255,255,.12)','⭐')}`},
     nj:{cls:'end',bg:'#26215C',card:'background:rgba(38,33,92,.88);color:#EEEDFE;border:1px solid #534AB7',delay:3.6,scene:sceneNj,label:'Gelukkig nieuwjaar',
@@ -1237,6 +1244,7 @@ function celebrate(type){
   root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');root.setAttribute('aria-label',C.label);
   root.innerHTML=`<canvas aria-hidden="true"></canvas><div class="cele-card" tabindex="-1" style="${C.card};--cd:${C.delay}s">${C.html}<button type="button" class="btn" id="cok">Dank je</button></div>`;
   document.body.appendChild(root);
+  if(type==='bday')setTimeout(()=>root.classList.remove('over'),3200);
   const cv=root.querySelector('canvas'),c=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),W=root.clientWidth,H=root.clientHeight;
   cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);c.setTransform(dpr,0,0,dpr,0,0);
   let raf=0,t=0;
@@ -1249,15 +1257,27 @@ function celebrate(type){
 }
 const TAU=Math.PI*2,PAL=['#D4537E','#7F77DD','#1D9E75','#EF9F27','#378ADD','#D85A30'];
 function sceneBday(c,W,H){
-  const balls=[],parts=[];
-  for(let i=0;i<24;i++){const r=22+Math.random()*16;balls.push({x:Math.random()*W,y:H+r+Math.random()*H*0.9,r,v:2.4+Math.random()*2,ph:Math.random()*TAU,c:PAL[i%6]})}
-  const conf=()=>{for(let i=0;i<160;i++)parts.push({x:W/2,y:H*0.35,vx:(Math.random()-.5)*10,vy:Math.random()*-10-3,w:5+Math.random()*5,h:8+Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:PAL[i%6]})};
-  const ball=(b,t)=>{const sx=b.x+Math.sin(t*0.04+b.ph)*12;c.strokeStyle='rgba(136,135,128,0.7)';c.lineWidth=1;c.beginPath();c.moveTo(sx,b.y+b.r*1.2);c.quadraticCurveTo(sx+Math.sin(t*0.06+b.ph)*8,b.y+b.r*2,sx,b.y+b.r*2.8);c.stroke();
+  const cols=['#D4537E','#7F77DD','#1D9E75','#EF9F27','#378ADD','#D85A30','#E24B4A','#97C459'];const balls=[],parts=[];let t=0;
+  const mkBall=(y)=>{const r=20+Math.random()*16;return{x:Math.random()*W,y:y!==undefined?y:H+r+Math.random()*H*0.9,r,v:1.6+Math.random()*1.8,ph:Math.random()*TAU,c:cols[Math.floor(Math.random()*cols.length)]}};
+  for(let i=0;i<20;i++)balls.push(mkBall());
+  const pop=(x,y,dir,n)=>{for(let i=0;i<n;i++){const a=dir+(Math.random()-.5)*0.9,sp=6+Math.random()*7;parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,w:5+Math.random()*5,h:8+Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.35,c:cols[i%cols.length],st:Math.random()<0.25})}};
+  const burst=()=>{for(let i=0;i<170;i++){const a=Math.random()*TAU,sp=2+Math.random()*9;parts.push({x:W/2,y:H*0.38,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-3,w:5+Math.random()*5,h:8+Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[i%cols.length],st:Math.random()<0.2})}};
+  const rain=()=>parts.push({x:Math.random()*W,y:-10,vx:(Math.random()-.5)*1,vy:1+Math.random()*1.5,w:4+Math.random()*4,h:7+Math.random()*5,r:Math.random()*6,vr:(Math.random()-.5)*.2,c:cols[Math.floor(Math.random()*cols.length)],st:false,slow:true});
+  const flags=(y0,sag,n,off)=>{const sw=Math.sin(t*0.03+off)*6;c.strokeStyle='#8A3B00';c.lineWidth=1.5;c.beginPath();c.moveTo(-10,y0);c.quadraticCurveTo(W/2,y0+sag+sw,W+10,y0);c.stroke();
+    for(let i=0;i<n;i++){const u=(i+0.5)/n,x=-10+(W+20)*u,y=(1-u)*(1-u)*y0+2*(1-u)*u*(y0+sag+sw)+u*u*y0;c.fillStyle=cols[(i+(off?3:0))%cols.length];c.beginPath();c.moveTo(x-11,y);c.lineTo(x+11,y);c.lineTo(x,y+22);c.closePath();c.fill()}};
+  const ball=b=>{const sx=b.x+Math.sin(t*0.04+b.ph)*12;c.strokeStyle='rgba(120,110,100,0.6)';c.lineWidth=1;c.beginPath();c.moveTo(sx,b.y+b.r*1.2);c.quadraticCurveTo(sx+Math.sin(t*0.06+b.ph)*8,b.y+b.r*2,sx,b.y+b.r*2.8);c.stroke();
     c.fillStyle=b.c;c.beginPath();c.ellipse(sx,b.y,b.r,b.r*1.2,0,0,TAU);c.fill();c.beginPath();c.moveTo(sx-4,b.y+b.r*1.2+5);c.lineTo(sx+4,b.y+b.r*1.2+5);c.lineTo(sx,b.y+b.r*1.2-1);c.fill();
-    c.fillStyle='rgba(255,255,255,0.35)';c.beginPath();c.ellipse(sx-b.r*0.35,b.y-b.r*0.45,b.r*0.18,b.r*0.3,-0.5,0,TAU);c.fill()};
-  return t=>{c.clearRect(0,0,W,H);if(t===70)conf();balls.forEach(b=>{b.y-=b.v;ball(b,t)});
-    parts.forEach(p=>{p.vy+=.22;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;c.save();c.translate(p.x,p.y);c.rotate(p.r);c.fillStyle=p.c;c.fillRect(-p.w/2,-p.h/2,p.w,p.h);c.restore()});
-    if(t>100&&!balls.some(b=>b.y+b.r*3>0)&&!parts.some(p=>p.y<H+20)){c.clearRect(0,0,W,H);return false}}}
+    c.fillStyle='rgba(255,255,255,0.4)';c.beginPath();c.ellipse(sx-b.r*0.35,b.y-b.r*0.45,b.r*0.18,b.r*0.3,-0.5,0,TAU);c.fill()};
+  const star=(x,y,r,col)=>{c.fillStyle=col;c.beginPath();for(let k=0;k<10;k++){const rr=k%2?r*0.45:r,a=-Math.PI/2+k*Math.PI/5;c.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}c.fill()};
+  return tt=>{t=tt;c.clearRect(0,0,W,H);
+    flags(28,46,9,0);flags(54,40,7,1.7);
+    balls.forEach((b,i)=>{b.y-=b.v;if(b.y+b.r*3<0){if(t<1500)balls[i]=mkBall(H+40)}ball(b)});
+    if(t===40)burst();
+    if(t>60&&t%140===60){pop(0,H,-Math.PI/3,70);pop(W,H,-Math.PI*2/3,70)}
+    if(t>90&&t%4===0)rain();
+    parts.forEach(p=>{if(p.slow){p.x+=p.vx+Math.sin(t*0.05+p.r)*0.5;p.y+=p.vy}else{p.vy+=.2;p.vx*=.985;p.x+=p.vx;p.y+=p.vy}p.r+=p.vr;
+      c.save();c.translate(p.x,p.y);c.rotate(p.r);if(p.st)star(0,0,5,p.c);else{c.fillStyle=p.c;c.fillRect(-p.w/2,-p.h/2,p.w,p.h)}c.restore()});
+    for(let i=parts.length-1;i>=0;i--)if(parts[i].y>H+30)parts.splice(i,1)}}
 function sceneKerst(c,W,H){
   const snow=[],stars=[];let trail=[];const lights=['#E24B4A','#EF9F27','#378ADD','#ED93B1'];let t=0;
   for(let i=0;i<110;i++)snow.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.5,v:0.5+Math.random()*1.2,p:Math.random()*TAU});
